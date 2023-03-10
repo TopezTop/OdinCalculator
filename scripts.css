@@ -1,1 +1,3 @@
 
+let numberButton = document.querySelector("data-number");
+console.log(numberButton);

@@ -40,9 +40,7 @@
 
 .screen {
   min-height: 120px;
-}
-
-.screen {
+  max-width: 500px;
   background-color: white;
   grid-column: span 4;
   padding: 10px;
@@ -57,11 +55,12 @@
   height: 30px;
   font-size: 30px;
   font-weight: 900;
+  max-width: 400px;
   font-family: "Roboto", sans-serif;
 }
 .screenMain {
-  height: 70px;
-  font-size: 70px;
+  height: 60px;
+  font-size: 50px;
   font-weight: 900;
   font-family: "Roboto", sans-serif;
 }

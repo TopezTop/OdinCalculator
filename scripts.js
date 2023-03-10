@@ -1,12 +1,24 @@
-let prevOperand = 0;
-let currOperand = 0;
-let decimalActive = false;
-let decimalPlaces = 0;
+let prevOperand = "";
+let currOperand = "";
+let operator = "";
+let topText = "";
+let operatorPressedFlag = false; // true if operator is pressed
+// let decimalPlaces = 0;
+
+const screenMain = document.getElementById("screen-main");
+const screenTop = document.getElementById("screen-top");
 
 let numberButtons = document.querySelectorAll("[data-number]");
 numberButtons.forEach((btn) => {
   btn.addEventListener("click", () => {
     numberBtnClicked(btn.dataset.number);
+  });
+});
+
+let operatorButtons = document.querySelectorAll("[data-operator]");
+operatorButtons.forEach((btn) => {
+  btn.addEventListener("click", () => {
+    operatorBtnClicked(btn.dataset.operator);
   });
 });
 
@@ -16,29 +28,78 @@ decimalBtnClicked.addEventListener("click", setDecimalPoint);
 const clearBtnClicked = document.getElementById("clearButton");
 clearBtnClicked.addEventListener("click", clearMemory);
 
+const deleteBtnClicked = document.getElementById("deleteButton");
+deleteBtnClicked.addEventListener("click", deleteLastChar);
+
+const equalsBtnClicked = document.getElementById("equalsBtn");
+equalsBtnClicked.addEventListener("click", calculateResult);
+
 function numberBtnClicked(btn) {
-  if (!decimalActive) {
-    currOperand = currOperand * 10 + parseInt(btn);
-  } else {
-    decimalPlaces += 1;
-    currOperand += parseInt(btn) / Math.pow(10, decimalPlaces);
+  if (currOperand.length < 17) {
+    if (!operatorPressedFlag) {
+      currOperand += btn;
+    } else {
+      currOperand = btn;
+      operatorPressedFlag = false;
+    }
+    updateScreen();
   }
+}
+
+function operatorBtnClicked(myOperator) {
+  prevOperand = currOperand;
+  operator = myOperator;
+  topText = prevOperand + " " + operator;
   updateScreen();
+  operatorPressedFlag = true;
 }
 
 function updateScreen() {
-  let screenMain = document.getElementById("screen-main");
-  screenMain.textContent = currOperand.toFixed(decimalPlaces);
+  screenMain.textContent = currOperand;
+  screenTop.textContent = topText;
 }
 
 function setDecimalPoint() {
-  decimalActive = true;
+  if (!currOperand.includes(".")) {
+    if (currOperand === "") {
+      currOperand = "0.";
+    } else {
+      currOperand += ".";
+    }
+    //decimalActive = true;
+    updateScreen();
+  }
+}
+
+function deleteLastChar() {
+  currOperand = currOperand.slice(0, -1);
+  updateScreen();
+}
+
+function calculateResult() {
+  let result = 0;
+  if (operator === "+") {
+    result = parseFloat(prevOperand) + parseFloat(currOperand);
+  }
+  if (operator === "-") {
+    result = parseFloat(prevOperand) - parseFloat(currOperand);
+  }
+  if (operator === "x") {
+    result = parseFloat(prevOperand) * parseFloat(currOperand);
+  }
+  if (operator === "÷") {
+    result = parseFloat(prevOperand) / parseFloat(currOperand);
+  }
+
+  topText = prevOperand + " " + operator + " " + currOperand;
+  currOperand = String(result);
+  updateScreen();
 }
 
 function clearMemory() {
-  prevOperand = 0;
-  currOperand = 0;
-  decimalActive = false;
-  decimalPlaces = 0;
+  prevOperand = "";
+  currOperand = "";
+  topText = "";
+  //decimalActive = false;
   updateScreen();
 }
