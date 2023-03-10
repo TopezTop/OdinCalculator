@@ -82,7 +82,11 @@ function deleteLastChar() {
 }
 
 function calculateResult() {
-  if (!alreadyCalculatedFlag) {
+  if (
+    !alreadyCalculatedFlag &&
+    currOperand.length > 0 &&
+    prevOperand.length > 0
+  ) {
     let result = 0;
     if (operator === "+") {
       result = parseFloat(prevOperand) + parseFloat(currOperand);
