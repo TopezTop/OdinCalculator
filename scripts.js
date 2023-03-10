@@ -4,6 +4,7 @@ let operator = "";
 let topText = "";
 let operatorPressedFlag = false; // true if operator is pressed
 // let decimalPlaces = 0;
+let alreadyCalculatedFlag = false;
 
 const screenMain = document.getElementById("screen-main");
 const screenTop = document.getElementById("screen-top");
@@ -35,23 +36,27 @@ const equalsBtnClicked = document.getElementById("equalsBtn");
 equalsBtnClicked.addEventListener("click", calculateResult);
 
 function numberBtnClicked(btn) {
-  if (currOperand.length < 17) {
+  if (currOperand.length < 60) {
     if (!operatorPressedFlag) {
       currOperand += btn;
     } else {
       currOperand = btn;
       operatorPressedFlag = false;
     }
+    alreadyCalculatedFlag = false;
     updateScreen();
   }
 }
 
 function operatorBtnClicked(myOperator) {
-  prevOperand = currOperand;
-  operator = myOperator;
-  topText = prevOperand + " " + operator;
-  updateScreen();
-  operatorPressedFlag = true;
+  if (!operatorPressedFlag) {
+    prevOperand = currOperand;
+    operator = myOperator;
+    topText = prevOperand + " " + operator;
+    updateScreen();
+    operatorPressedFlag = true;
+    alreadyCalculatedFlag = false;
+  }
 }
 
 function updateScreen() {
@@ -77,23 +82,26 @@ function deleteLastChar() {
 }
 
 function calculateResult() {
-  let result = 0;
-  if (operator === "+") {
-    result = parseFloat(prevOperand) + parseFloat(currOperand);
-  }
-  if (operator === "-") {
-    result = parseFloat(prevOperand) - parseFloat(currOperand);
-  }
-  if (operator === "x") {
-    result = parseFloat(prevOperand) * parseFloat(currOperand);
-  }
-  if (operator === "÷") {
-    result = parseFloat(prevOperand) / parseFloat(currOperand);
-  }
+  if (!alreadyCalculatedFlag) {
+    let result = 0;
+    if (operator === "+") {
+      result = parseFloat(prevOperand) + parseFloat(currOperand);
+    }
+    if (operator === "-") {
+      result = parseFloat(prevOperand) - parseFloat(currOperand);
+    }
+    if (operator === "x") {
+      result = parseFloat(prevOperand) * parseFloat(currOperand);
+    }
+    if (operator === "÷") {
+      result = parseFloat(prevOperand) / parseFloat(currOperand);
+    }
 
-  topText = prevOperand + " " + operator + " " + currOperand;
-  currOperand = String(result);
-  updateScreen();
+    topText = prevOperand + " " + operator + " " + currOperand;
+    currOperand = String(result);
+    updateScreen();
+    alreadyCalculatedFlag = true;
+  }
 }
 
 function clearMemory() {
