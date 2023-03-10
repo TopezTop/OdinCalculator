@@ -39,8 +39,36 @@
 }
 
 .screen {
-  min-height: 100px;
+  min-height: 120px;
 }
+
+.screen {
+  background-color: white;
+  grid-column: span 4;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 10px;
+}
+
+.screenTop {
+  height: 30px;
+  font-size: 30px;
+  font-weight: 900;
+  font-family: "Roboto", sans-serif;
+}
+.screenMain {
+  height: 70px;
+  font-size: 70px;
+  font-weight: 900;
+  font-family: "Roboto", sans-serif;
+}
+/* <div class="screen" id="screen">
+<label id="screenTop" class="screenTop"> 11</label>
+<label id="screenMain" class="screenMain"> 22</label>
+</div> */
 
 #clearButton,
 #deleteButton,
@@ -55,11 +83,6 @@
 }
 #deleteButton {
   grid-column: span 2;
-}
-
-.screen {
-  background-color: white;
-  grid-column: span 4;
 }
 
 .btn {
